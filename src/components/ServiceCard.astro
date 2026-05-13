@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  description: string;
+  price: string;
+  duration: string;
+  rating: number;
+  image: string;
+  tag?: string;
+  class?: string;
+}
+
+const { title, description, price, duration, rating, image, tag, class: className } = Astro.props;
+---
+
+<div class={`group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 reveal-on-scroll ${className}`}>
+  <div class="relative h-64 overflow-hidden">
+    <div class="absolute inset-0 bg-brand-red/10 group-hover:bg-transparent transition-colors z-10"></div>
+    <Image 
+      src={image} 
+      alt={title}
+      width={800}
+      height={600}
+      format="webp"
+      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+    />
+    {tag && (
+      <span class="absolute top-4 left-4 z-20 bg-brand-yellow text-brand-red text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+        {tag}
+      </span>
+    )}
+  </div>
+  
+  <div class="p-8">
+    <div class="flex justify-between items-start mb-4">
+      <div class="flex gap-1">
+        {[...Array(5)].map((_, i) => (
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="14" 
+            height="14" 
+            viewBox="0 0 24 24" 
+            fill={i < Math.floor(rating) ? "var(--color-brand-yellow)" : "none"} 
+            stroke="var(--color-brand-yellow)" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        ))}
+        <span class="text-xs text-charcoal/40 font-bold ml-1">{rating}</span>
+      </div>
+      <span class="text-sm font-bold text-charcoal/60 uppercase">{duration}</span>
+    </div>
+
+    <h3 class="text-2xl mb-3 group-hover:text-brand-red transition-colors font-display">{title}</h3>
+    <p class="text-charcoal/60 mb-6 line-clamp-2">{description}</p>
+    
+    <div class="flex items-center justify-between mt-auto">
+      <div>
+        <span class="text-xs text-charcoal/40 font-bold uppercase block">Desde</span>
+        <span class="text-2xl font-display font-bold text-brand-red">{price}</span>
+      </div>
+      <button class="bg-brand-yellow hover:bg-brand-red hover:text-white text-brand-red w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </div>
+  </div>
+</div>

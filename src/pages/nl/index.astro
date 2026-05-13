@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { Image } from 'astro:assets';
+import { ui } from '../../i18n/ui';
+
+const lang = 'nl';
+const t = ui[lang];
+---
+
+<BaseLayout title={t['nav.home']} lang={lang}>
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <Image 
+        src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&q=80&w=2000" 
+        class="w-full h-full object-cover" 
+        alt="Málaga"
+        width={1920}
+        height={1080}
+        format="webp"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-cream via-cream/80 to-transparent"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-3xl reveal-on-scroll">
+        <span class="bg-brand-yellow text-brand-red font-bold px-4 py-2 rounded-full uppercase tracking-widest text-sm mb-6 inline-block">
+          Premium Reizen & Tours
+        </span>
+        <h1 class="text-7xl md:text-8xl mb-8 leading-[0.9] text-charcoal">
+          {t['hero.title']}
+        </h1>
+        <p class="text-xl md:text-2xl text-charcoal/70 mb-12 max-w-xl leading-relaxed">
+          {t['hero.subtitle']}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#services" class="bg-brand-red text-white font-bold py-5 px-10 rounded-2xl text-lg hover:bg-charcoal transition-all text-center shadow-xl shadow-brand-red/20">
+            {t['hero.cta']}
+          </a>
+          <a href="#contact" class="glass text-charcoal font-bold py-5 px-10 rounded-2xl text-lg hover:bg-brand-yellow transition-all text-center">
+            {t['nav.contact']}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid Services -->
+  <section id="services" class="py-32 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-20 reveal-on-scroll">
+        <h2 class="text-5xl md:text-6xl mb-6">{t['services.title']}</h2>
+        <p class="text-xl text-charcoal/60 max-w-2xl mx-auto">
+          {t['services.subtitle']}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <ServiceCard 
+          class="md:col-span-8"
+          title={t['service1.title']}
+          description={t['service1.desc']}
+          price="45€"
+          duration="3.5u"
+          rating={4.9}
+          image="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1200"
+          tag="Meest Populair"
+        />
+        <ServiceCard 
+          class="md:col-span-4"
+          title={t['service3.title']}
+          description={t['service3.desc']}
+          price="65€"
+          duration="2u"
+          rating={4.8}
+          image="https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&q=80&w=800"
+        />
+        <ServiceCard 
+          class="md:col-span-5"
+          title={t['service4.title']}
+          description={t['service4.desc']}
+          price="35€"
+          duration="4u"
+          rating={5.0}
+          image="https://images.unsplash.com/photo-1553775556-80669b94bfa5?q=80&w=1740&auto=format&fit=crop"
+        />
+        <ServiceCard 
+          class="md:col-span-7"
+          title={t['service2.title']}
+          description={t['service2.desc']}
+          price="120€"
+          duration="Hele Dag"
+          rating={4.9}
+          image="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=1200"
+          tag="VIP Ervaring"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-32 bg-cream overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="flex-1 reveal-on-scroll">
+          <h2 class="text-5xl md:text-6xl mb-8 leading-tight">Málaga experts <span class="text-brand-red">bij geboorte</span>, gepassioneerd door keuze.</h2>
+          <p class="text-xl text-charcoal/70 mb-8 leading-relaxed">
+            Bij Iberosur verkopen we niet alleen tours. We creëren herinneringen. Wij zijn een team van locals die je het echte gezicht van onze stad willen laten zien, ver weg van de conventionele toeristische circuits.
+          </p>
+          <div class="grid grid-cols-2 gap-8">
+            <div>
+              <span class="text-4xl font-display font-bold text-brand-red block mb-2">+10k</span>
+              <span class="text-sm font-bold uppercase text-charcoal/40 tracking-widest">Tevreden Reizigers</span>
+            </div>
+            <div>
+              <span class="text-4xl font-display font-bold text-brand-red block mb-2">15+</span>
+              <span class="text-sm font-bold uppercase text-charcoal/40 tracking-widest">Jaar Ervaring</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 relative reveal-on-scroll">
+          <div class="absolute -top-12 -left-12 w-48 h-48 bg-brand-yellow rounded-3xl -z-10 rotate-12"></div>
+          <Image 
+            src="https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&q=80&w=1000" 
+            class="rounded-[3rem] shadow-2xl relative z-10" 
+            alt="Over Iberosur"
+            width={800}
+            height={1000}
+            format="webp"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Málaga Guide Section -->
+  <section class="py-32 bg-charcoal text-cream overflow-hidden">
+    <div class="container mx-auto px-6">
+      <h2 class="text-5xl md:text-6xl mb-20 text-center reveal-on-scroll">{t['guide.title']}</h2>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="reveal-on-scroll" style="transition-delay: 100ms;">
+          <div class="text-brand-yellow text-6xl mb-6 font-display font-black opacity-20">01</div>
+          <h3 class="text-2xl mb-4 text-brand-yellow">{t['guide.step1.title']}</h3>
+          <p class="text-cream/60 leading-relaxed">{t['guide.step1.desc']}</p>
+        </div>
+        <div class="reveal-on-scroll" style="transition-delay: 200ms;">
+          <div class="text-brand-yellow text-6xl mb-6 font-display font-black opacity-20">02</div>
+          <h3 class="text-2xl mb-4 text-brand-yellow">{t['guide.step2.title']}</h3>
+          <p class="text-cream/60 leading-relaxed">{t['guide.step2.desc']}</p>
+        </div>
+        <div class="reveal-on-scroll" style="transition-delay: 300ms;">
+          <div class="text-brand-yellow text-6xl mb-6 font-display font-black opacity-20">03</div>
+          <h3 class="text-2xl mb-4 text-brand-yellow">{t['guide.step3.title']}</h3>
+          <p class="text-cream/60 leading-relaxed">{t['guide.step3.desc']}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
