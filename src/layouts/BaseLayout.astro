@@ -1,7 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Navigation from '../components/Navigation.astro';
-import MobileContact from '../components/MobileContact.astro';
 import '../styles/global.css';
 import { languages } from '../i18n/ui';
 
@@ -31,39 +30,32 @@ const { title, lang } = Astro.props;
       <slot />
     </main>
 
-    <footer class="bg-charcoal text-cream pt-24 pb-12">
+    <footer class="bg-charcoal text-cream py-10">
       <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-4 gap-12 mb-16">
-          <div class="col-span-2">
-            <div class="text-brand-yellow font-display font-bold text-4xl mb-4 uppercase">Iberosur</div>
-            <p class="text-cream/60 max-w-sm text-lg">
-              Expertos en experiencias turísticas personalizadas en la Costa del Sol. Descubre Málaga con los que mejor la conocen.
-            </p>
-          </div>
-          <div>
-            <h4 class="text-brand-yellow mb-6">Enlaces</h4>
-            <ul class="space-y-4 text-cream/80">
-              <li><a href="#services" class="hover:text-brand-yellow transition-colors">Servicios</a></li>
-              <li><a href="#about" class="hover:text-brand-yellow transition-colors">Sobre nosotros</a></li>
-              <li><a href="#contact" class="hover:text-brand-yellow transition-colors">Contacto</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="text-brand-yellow mb-6">Contacto</h4>
-            <ul class="space-y-4 text-cream/80">
-              <li>Málaga, España</li>
-              <li>info@iberosur.com</li>
-              <li>+34 600 000 000</li>
-            </ul>
-          </div>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+          <span class="text-brand-yellow font-display font-bold text-2xl uppercase tracking-tighter">Iberosur DMC</span>
+          <a href="mailto:info@iberosur.com" class="text-cream/40 text-sm hover:text-brand-yellow transition-colors">info@iberosur.com</a>
+          <p class="text-cream/30 text-sm">&copy; {new Date().getFullYear()} Iberosur DMC.</p>
         </div>
-        <div class="border-t border-cream/10 pt-8 text-center text-cream/40 text-sm">
-          <p>&copy; {new Date().getFullYear()} Iberosur. Todos los derechos reservados.</p>
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 border-t border-cream/10 pt-4">
+          {lang === 'es' && <>
+            <a href={`${import.meta.env.BASE_URL}es/legal/privacidad/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Política de Privacidad</a>
+            <a href={`${import.meta.env.BASE_URL}es/legal/terminos/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Términos de Uso</a>
+            <a href={`${import.meta.env.BASE_URL}es/legal/traduccion/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Aviso de Traducción</a>
+          </>}
+          {lang === 'en' && <>
+            <a href={`${import.meta.env.BASE_URL}en/legal/privacy/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Privacy Policy</a>
+            <a href={`${import.meta.env.BASE_URL}en/legal/terms/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Terms of Use</a>
+            <a href={`${import.meta.env.BASE_URL}en/legal/translation/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Translation Notice</a>
+          </>}
+          {lang === 'nl' && <>
+            <a href={`${import.meta.env.BASE_URL}nl/legal/privacy/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Privacybeleid</a>
+            <a href={`${import.meta.env.BASE_URL}nl/legal/voorwaarden/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Gebruiksvoorwaarden</a>
+            <a href={`${import.meta.env.BASE_URL}nl/legal/vertaling/`} class="text-xs text-cream/30 hover:text-brand-yellow transition-colors">Vertaalnotitie</a>
+          </>}
         </div>
       </div>
     </footer>
-
-    <MobileContact />
 
     <script>
       function setupReveal() {

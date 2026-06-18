@@ -8,6 +8,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = ui[lang];
 const baseUrl = import.meta.env.BASE_URL;
+
+// Set to true when the reservations system is ready
+const SHOW_RESERVAS = false;
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6">
@@ -17,7 +20,7 @@ const baseUrl = import.meta.env.BASE_URL;
         I
       </div>
       <span class="text-brand-red font-display font-bold text-2xl uppercase tracking-tighter">
-        Iberosur
+        Iberosur <span class="text-charcoal/40 text-lg font-bold">DMC</span>
       </span>
     </a>
 
@@ -25,14 +28,23 @@ const baseUrl = import.meta.env.BASE_URL;
       <ul class="flex gap-8 items-center">
         <li><a href={`${baseUrl}${lang}/#services`} class="font-medium hover:text-brand-red transition-colors">{t['nav.services']}</a></li>
         <li><a href={`${baseUrl}${lang}/#about`} class="font-medium hover:text-brand-red transition-colors">{t['nav.about']}</a></li>
+        <li><a href={`${baseUrl}${lang}/blog/`} class="font-medium hover:text-brand-red transition-colors">{t['nav.blog']}</a></li>
         <li><a href={`${baseUrl}${lang}/#contact`} class="font-medium hover:text-brand-red transition-colors">{t['nav.contact']}</a></li>
-        
+
+        {SHOW_RESERVAS && (
+          <li>
+            <a href={`${baseUrl}${lang}/reservas/`} class="bg-brand-red text-white font-bold px-5 py-2 rounded-xl hover:bg-charcoal transition-all">
+              {t['nav.reservas']}
+            </a>
+          </li>
+        )}
+
         <li class="h-6 w-px bg-charcoal/10 mx-2"></li>
-        
+
         <li class="flex gap-3">
           {Object.entries(languages).map(([l, label]) => (
-            <a 
-              href={`${baseUrl}${l}/`} 
+            <a
+              href={`${baseUrl}${l}/`}
               class={`text-xs font-bold px-2 py-1 rounded-md transition-all ${l === lang ? 'bg-brand-red text-white' : 'text-charcoal/60 hover:text-brand-red hover:bg-brand-yellow/20'}`}
             >
               {l.toUpperCase()}

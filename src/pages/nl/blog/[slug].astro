@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { ui } from '../../../i18n/ui';
+
+const lang = 'nl';
+const t = ui[lang];
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (entry) =>
+    entry.data.lang === 'nl' && !entry.data.draft
+  );
+  return posts.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const authors = await getCollection('authors');
+const author = authors.find(a => a.id === entry.data.author);
+
+const formattedDate = entry.data.pubDate.toLocaleDateString('nl-NL', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={entry.data.title} lang={lang}>
+  {entry.data.image && (
+    <div class="w-full h-72 md:h-[28rem] overflow-hidden mt-20">
+      <img src={entry.data.image} alt={entry.data.imageAlt ?? entry.data.title} class="w-full h-full object-cover" />
+    </div>
+  )}
+
+  <article class={`container mx-auto px-6 pb-32 ${entry.data.image ? 'pt-12' : 'pt-40'}`}>
+    <div class="max-w-3xl mx-auto">
+      <a href={`${baseUrl}${lang}/blog/`} class="inline-flex items-center gap-2 text-sm font-bold text-charcoal/50 hover:text-brand-red transition-colors mb-8">
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        {t['blog.backToBlog']}
+      </a>
+      {entry.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-6">
+          {entry.data.tags.map(tag => (
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-red bg-brand-yellow/20 px-3 py-1 rounded-full">{tag}</span>
+          ))}
+        </div>
+      )}
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-charcoal mb-6 leading-tight">{entry.data.title}</h1>
+      <div class="flex items-center gap-4 mb-12 pb-8 border-b border-charcoal/10">
+        <time class="text-sm text-charcoal/50 font-medium">{t['blog.publishedOn']} {formattedDate}</time>
+      </div>
+      <div class="prose"><Content /></div>
+      {author && (
+        <div class="mt-16 pt-12 border-t border-charcoal/10">
+          <div class="flex items-start gap-6 bg-white rounded-3xl p-8 shadow-sm">
+            {author.data.avatar ? (
+              <img src={author.data.avatar} alt={author.data.name} class="w-20 h-20 rounded-2xl object-cover flex-shrink-0" />
+            ) : (
+              <div class="w-20 h-20 rounded-2xl bg-brand-yellow flex items-center justify-center flex-shrink-0">
+                <span class="text-brand-red font-display font-black text-2xl">{author.data.name.charAt(0)}</span>
+              </div>
+            )}
+            <div class="flex-1">
+              <p class="text-xs font-bold uppercase tracking-widest text-charcoal/40 mb-1">{t['blog.by']}</p>
+              <h3 class="text-xl font-display font-bold text-charcoal mb-1">{author.data.name}</h3>
+              <p class="text-sm text-brand-red font-semibold mb-3">{author.data.role}</p>
+              <p class="text-sm text-charcoal/60 leading-relaxed">{author.data.bio}</p>
+              {author.data.social && (
+                <div class="flex gap-4 mt-4">
+                  {author.data.social.email && <a href={`mailto:${author.data.social.email}`} class="text-xs font-bold text-charcoal/40 hover:text-brand-red transition-colors uppercase tracking-wider">Email</a>}
+                  {author.data.social.linkedin && <a href={author.data.social.linkedin} target="_blank" rel="noopener" class="text-xs font-bold text-charcoal/40 hover:text-brand-red transition-colors uppercase tracking-wider">LinkedIn</a>}
+                  {author.data.social.instagram && <a href={author.data.social.instagram} target="_blank" rel="noopener" class="text-xs font-bold text-charcoal/40 hover:text-brand-red transition-colors uppercase tracking-wider">Instagram</a>}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+</BaseLayout>

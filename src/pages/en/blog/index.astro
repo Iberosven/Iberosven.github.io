@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { ui } from '../../../i18n/ui';
+
+const lang = 'en';
+const t = ui[lang];
+
+const posts = (await getCollection('blog', (entry) =>
+  entry.data.lang === 'en' && !entry.data.draft
+)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={t['blog.title']} lang={lang}>
+  <section class="min-h-screen pt-40 pb-32 bg-cream">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-20 reveal-on-scroll">
+        <span class="bg-brand-yellow text-brand-red font-bold px-4 py-2 rounded-full uppercase tracking-widest text-sm mb-6 inline-block">
+          Iberosur DMC
+        </span>
+        <h1 class="text-5xl md:text-7xl mb-6">{t['blog.title']}</h1>
+        <p class="text-xl text-charcoal/60 max-w-2xl mx-auto">
+          {t['blog.subtitle']}
+        </p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="text-center text-charcoal/40 text-xl py-20">{t['blog.noPosts']}</p>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map(post => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              image={post.data.image}
+              imageAlt={post.data.imageAlt}
+              tags={post.data.tags}
+              slug={post.id}
+              lang={lang}
+              readMore={t['blog.readMore']}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
